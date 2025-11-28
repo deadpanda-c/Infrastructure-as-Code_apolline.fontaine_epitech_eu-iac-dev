@@ -32,6 +32,9 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: "1.14.0"
+      
+      - name: Terraform Init
+        run: terraform init -backend-config=dev.config
 
       - name: Terraform Validate
         run: terraform validate
