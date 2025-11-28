@@ -7,7 +7,7 @@ variable "region" {
 variable "vpc_name" {
   description = "Name of the VPC"
   type        = string
-  default     = "infraascode-vpc"
+  default     = "vpc"
 }
 
 variable "tags" {

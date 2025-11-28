@@ -8,9 +8,8 @@ terraform {
   required_version = ">= 1.2"
 
   backend "s3" {
-    bucket = "terraform-infraascode-bucket"
+    bucket = ""
     key    = "state/terraform.tfstate"
-    region = "eu-west-1"
-    # use_lockfile = true
+    region = ""
   }
 }
