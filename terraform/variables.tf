@@ -5,7 +5,15 @@ variable "region" {
 }
 
 variable "vpc_name" {
-    description = "Name of the VPC"
-    type        = string
-    default     = "infraascode-vpc"
+  description = "Name of the VPC"
+  type        = string
+  default     = "infraascode-vpc"
+}
+
+variable "tags" {
+  description = "A map of tags to assign to resources"
+  type        = map(string)
+  default = {
+    environment = "dev"
+  }
 }
