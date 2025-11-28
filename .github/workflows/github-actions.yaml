@@ -1,11 +1,14 @@
-name: GitHub Actions Demo
+name: GitHub Actions
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: [push]
+
+env:
+  TF_DIRECTORY: ./terraform
 permissions:
   id-token: write
 jobs:
-  Run_job_with_aws:
-    runs-on: ubuntu-latest
+  aws-credentials:
+    runs-on: [self-hosted, linux]
     steps:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@main
@@ -16,3 +19,19 @@ jobs:
         run: |
           # Your commands that require AWS credentials
           aws sts get-caller-identity 
+  terraform:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.TF_DIRECTORY }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.14.0"
+
+      - name: Terraform Validate
+        run: terraform validate
