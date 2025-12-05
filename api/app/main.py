@@ -11,6 +11,8 @@ from models import User
 
 from dependencies import hash_password
 
+from tasks.tasks import router as tasks_router
+
 import os
 
 
@@ -34,6 +36,8 @@ app.add_middleware(
     allow_methods=["*"],              # autoriser toutes les méthodes (GET, POST, etc.)
     allow_headers=["*"],              # autoriser tous les headers (ex: Authorization)
 )
+
+app.include_router(tasks_router)
 
 @app.get("/health")
 def healthcheck():
