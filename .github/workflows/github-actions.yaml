@@ -6,6 +6,7 @@ env:
   TF_DIRECTORY: ./terraform
 permissions:
   id-token: write
+  contents: read
 jobs:
   aws-credentials:
     runs-on: ubuntu-latest
@@ -18,7 +19,7 @@ jobs:
       - name: Additional steps
         run: |
           # Your commands that require AWS credentials
-          aws sts get-caller-identity 
+          aws sts get-caller-identity
   terraform:
     runs-on: ubuntu-latest
     defaults:
@@ -27,6 +28,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
+      - name: Check OICD token
+        run: |
+          echo $ACTIONS_ID_TOKEN_REQUEST_URL
+          echo $ACTIONS_ID_TOKEN_REQUEST_TOKEN
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
