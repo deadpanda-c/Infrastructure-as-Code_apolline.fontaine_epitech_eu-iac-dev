@@ -16,8 +16,6 @@ permissions:
 jobs:
   destroy-terraform:
     runs-on: ubuntu-latest
-    env:
-      ENV: ${{ inputs.environment }}
     steps:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@main
