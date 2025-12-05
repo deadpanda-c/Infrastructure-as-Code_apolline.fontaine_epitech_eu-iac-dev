@@ -6,6 +6,10 @@ permissions:
   id-token: write
   contents: read
 
+defaults:
+  run:
+    working-directory: terraform
+
 jobs:
   terraform:
     runs-on: ubuntu-latest
