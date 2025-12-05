@@ -49,7 +49,7 @@ def create_default_admin():
     db.close()
 
 origins = [
-    "https://codex.techmoulins.fr", 
+    "http://localhost:3000",
 ]
 
 app.add_middleware(
