@@ -1,38 +1,39 @@
 name: GitHub Actions
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: [push]
-
-env:
-  TF_DIRECTORY: ./terraform
+on:
+  workflow_dispatch:
+    inputs:
+      env:
+        description: 'Environment to destroy'
+        type: environment
+        required: true
+        default: dev
 
 permissions:
   id-token: write
   contents: read
 
 jobs:
-  terraform:
+  destroy-terraform:
     runs-on: ubuntu-latest
-    # defaults:
-    #   run:
-    #     working-directory: ${{ env.TF_DIRECTORY }}
+    env:
+      ENV: ${{ inputs.environment }}
     steps:
+      - name: Check Environment
+        run: |
+          echo "Environment: $ENVIRONMENT"
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@main
         with:
           role-to-assume: "arn:aws:iam::075006646450:role/OICD-github-actions"
           aws-region: "eu-west-1"
-      - name: Additional steps
-        run: |
-          # Your commands that require AWS credentials
-          aws sts get-caller-identity
+
+      - name: Check AWS Identity
+        run: aws sts get-caller-identity
 
       - name: Checkout code
         uses: actions/checkout@v3
-
-      - name: Check OICD token
-        run: |
-          echo $ACTIONS_ID_TOKEN_REQUEST_URL
-          echo $ACTIONS_ID_TOKEN_REQUEST_TOKEN
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
@@ -40,7 +41,7 @@ jobs:
           terraform_version: "1.14.0"
       
       - name: Terraform Init
-        run: terraform init -backend-config=dev.config
-
-      - name: Terraform Validate
-        run: terraform validate
+        run: terraform init -backend-config=${{ github.event.inputs.env }}.config
+      
+      - name: Terraform Destroy
+        run: terraform destroy -var-file=${{ github.event.inputs.env }}.tfvars -auto-approve
