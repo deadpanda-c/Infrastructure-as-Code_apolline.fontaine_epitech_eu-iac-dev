@@ -1,5 +1,5 @@
-name: GitHub Actions
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+name: Manual destroy
+run-name: ${{ github.actor }} run the workflow
 on:
   workflow_dispatch:
     inputs:
@@ -19,10 +19,6 @@ jobs:
     env:
       ENV: ${{ inputs.environment }}
     steps:
-      - name: Check Environment
-        run: |
-          echo "Environment: $ENVIRONMENT"
-
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@main
         with:
