@@ -6,7 +6,11 @@ on:
       env:
         description: 'Environment to destroy'
         required: true
-        default: dev
+        default: 'dev'
+        type: choice
+        options:
+          - dev
+          - prd
 
 permissions:
   id-token: write
