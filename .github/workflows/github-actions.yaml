@@ -12,9 +12,9 @@ permissions:
 jobs:
   terraform:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ${{ env.TF_DIRECTORY }}
+    # defaults:
+    #   run:
+    #     working-directory: ${{ env.TF_DIRECTORY }}
     steps:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@main
